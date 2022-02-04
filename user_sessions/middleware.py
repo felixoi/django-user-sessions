@@ -1,6 +1,7 @@
 import time
 
 from django.conf import settings
+from django.contrib.sessions import middleware as base_session_middleware
 from django.utils.cache import patch_vary_headers
 from django.utils.http import http_date
 
@@ -9,14 +10,8 @@ try:
 except ImportError:
     from django.utils.importlib import import_module
 
-try:
-    from django.utils.deprecation import MiddlewareMixin
-except ImportError:
-    class MiddlewareMixin(object):
-        pass
 
-
-class SessionMiddleware(MiddlewareMixin):
+class SessionMiddleware(base_session_middleware.SessionMiddleware):
     """
     Middleware that provides ip and user_agent to the session store.
     """
